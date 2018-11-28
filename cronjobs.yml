@@ -20,6 +20,6 @@ spec:
             imagePullPolicy: IfNotPresent
             name: aws-eks-eni-workaround
           terminationGracePeriodSeconds: 30
-  schedule: 0 * * * *
+  schedule: "0 * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
