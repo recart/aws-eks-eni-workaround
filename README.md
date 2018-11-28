@@ -1,7 +1,8 @@
 # aws-eks-eni-workaround
 [![Docker Repository on Quay](https://quay.io/repository/recart/aws-eks-eni-workaround/status "Docker Repository on Quay")](https://quay.io/repository/recart/aws-eks-eni-workaround)
 
-This project addresses the issue, that AWS CNI not deleting the ENIs that were attached to detached/terminated kubernetes worker nodes. As a workaround this cronjob will delete all the leftover ENIs in the VPC of your worker nodes.
+This project addresses the issue, that AWS CNI not deleting the ENIs that were attached to detached/terminated kubernetes worker nodes. As a workaround this cronjob will delete all the leftover ENIs in the VPC of your worker nodes, preventing your subnet to run out of IP addresses.
+
 Read more about the issue here: https://github.com/aws/amazon-vpc-cni-k8s/issues/69
 
 ### Testing
