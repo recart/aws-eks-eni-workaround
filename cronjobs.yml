@@ -1,0 +1,25 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: aws-eks-eni-workaround
+  namespace: default
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            env:
+            - name: VPC_ID
+              value: vpc_id_needed
+            - name: AWS_DEFAULT_REGION
+              value: aws_region_needed
+            image: quay.io/recart/aws-eks-eni-workaround:latest
+            imagePullPolicy: IfNotPresent
+            name: aws-eks-eni-workaround
+          terminationGracePeriodSeconds: 30
+  schedule: 0 * * * *
+  successfulJobsHistoryLimit: 3
+  suspend: false
