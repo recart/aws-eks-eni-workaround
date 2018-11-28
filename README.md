@@ -1,17 +1,25 @@
 # aws-eks-eni-workaround
-
-Issue: https://github.com/aws/amazon-vpc-cni-k8s/issues/69#issuecomment-442166650
-
-Testing: `docker run -it -e AWS_DEFAULT_REGION=us-east-1 -e AWS_ACCESS_KEY_ID=xxxx -e AWS_SECRET_ACCESS_KEY=xxx -e DRY_RUN=true -e VPC_ID=xxx test-eni-workaround`
-
-
-Edit and change in `cronjobs.yml`
-
-Your VPC ID: `vpc_id_needed`
-
-Your AWS region: `aws_region_needed`
-
-Production: `kubectl apply -f cronjobs.yml`
-
-
 [![Docker Repository on Quay](https://quay.io/repository/recart/aws-eks-eni-workaround/status "Docker Repository on Quay")](https://quay.io/repository/recart/aws-eks-eni-workaround)
+
+This project addresses the issue, that AWS CNI not deleting the ENIs that were attached to detached/terminated kubernetes worker nodes. As a workaround this cronjob will delete all the leftover ENIs in the VPC of your worker nodes.
+Read more about the issue here: https://github.com/aws/amazon-vpc-cni-k8s/issues/69
+
+### Testing
+You can test the project via passing `DRY_RUN=true` to the container.
+Example:
+```
+docker run -it -e AWS_DEFAULT_REGION=us-east-1 -e AWS_ACCESS_KEY_ID=xxxx -e AWS_SECRET_ACCESS_KEY=xxx -e DRY_RUN=true -e VPC_ID=xxx test-eni-workaround
+```
+
+### Deploy to your kubernetes cluster
+
+Replace the following in `cronjobs.yml`:
+- `vpc_id_needed` - VPC id of the worker nodes
+- `aws_region_needed` - AWS Region of your VPC
+
+Finally deploy the cronjob:
+`kubectl apply -f cronjobs.yml`
+
+#### Credits:
+- [@davidgereb](https://github.com/davidgereb)
+- [@pigri](https://github.com/pigri)
